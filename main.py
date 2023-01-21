@@ -30,7 +30,9 @@ def get_longest_note(track: mido.MidiTrack) -> float:
         length = time - position
 
         lengths.append(length)
-        notes.pop(message.note)
+        
+        if message.note in notes:
+            notes.pop(message.note)
     
     return max(lengths) if len(lengths) != 0 else 0
 
@@ -115,6 +117,8 @@ for track in tracks:
         song = song.overlay(sample, position=position)
 
         print(f"Added note {message.note} at position {position} to the song")
-        notes.pop(message.note)
+        
+        if message.note in notes:
+            notes.pop(message.note)
 
 song.export("final.wav", format="wav")
